@@ -7,7 +7,7 @@ import '../post_bloc/post_bloc.dart';
 import '../post_bloc/post_event.dart';
 
 class CreatePostScreen extends StatefulWidget {
-  const CreatePostScreen({Key? key}) : super(key: key);
+  const CreatePostScreen({super.key});
 
   @override
   _CreatePostScreenState createState() => _CreatePostScreenState();
@@ -37,13 +37,19 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
 
     if (title.isEmpty || description.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text("Le titre et la description doivent être remplis")),
+        const SnackBar(
+          content: Text("Le titre et la description doivent être remplis"),
+          backgroundColor: Colors.red,
+        ),
       );
       return;
     }
 
     final newPost = Post(
-      id: DateTime.now().millisecondsSinceEpoch.toString(),
+      id: DateTime
+          .now()
+          .millisecondsSinceEpoch
+          .toString(),
       title: title,
       description: description,
     );
@@ -56,13 +62,9 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Créer un post'),
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.save),
-            onPressed: _createPost,
-          ),
-        ],
+        title: const Text('Créer un Post'),
+        backgroundColor: Colors.blueAccent,
+
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -70,13 +72,27 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
           children: [
             TextField(
               controller: _titleController,
-              decoration: const InputDecoration(labelText: 'Titre'),
+              decoration: const InputDecoration(
+                labelText: 'Titre',
+                border: OutlineInputBorder(),
+              ),
             ),
             const SizedBox(height: 16),
             TextField(
               controller: _descriptionController,
-              decoration: const InputDecoration(labelText: 'Description'),
+              decoration: const InputDecoration(
+                labelText: 'Description',
+                border: OutlineInputBorder(),
+              ),
               maxLines: 5,
+            ),
+            const SizedBox(height: 16),
+            ElevatedButton(
+              onPressed: _createPost,
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.blueAccent,
+              ),
+              child: const Text("Ajouter un Post"),
             ),
           ],
         ),

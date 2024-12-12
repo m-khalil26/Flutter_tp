@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -9,7 +8,7 @@ import '../post_bloc/post_event.dart';
 class PostDetailScreen extends StatefulWidget {
   final Post post;
 
-  const PostDetailScreen({Key? key, required this.post}) : super(key: key);
+  const PostDetailScreen({super.key, required this.post});
 
   @override
   _PostDetailScreenState createState() => _PostDetailScreenState();
@@ -23,8 +22,7 @@ class _PostDetailScreenState extends State<PostDetailScreen> {
   void initState() {
     super.initState();
     _titleController = TextEditingController(text: widget.post.title);
-    _descriptionController =
-        TextEditingController(text: widget.post.description);
+    _descriptionController = TextEditingController(text: widget.post.description);
   }
 
   @override
@@ -35,12 +33,15 @@ class _PostDetailScreenState extends State<PostDetailScreen> {
   }
 
   void _saveChanges() {
-    final title = _titleController.text;
-    final description = _descriptionController.text;
+    final title = _titleController.text.trim();
+    final description = _descriptionController.text.trim();
 
     if (title.isEmpty || description.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text("Le titre et la description doivent être remplis")),
+        const SnackBar(
+          content: Text("Le titre et la description doivent être remplis"),
+          backgroundColor: Colors.red,
+        ),
       );
       return;
     }
@@ -51,6 +52,7 @@ class _PostDetailScreenState extends State<PostDetailScreen> {
     );
 
     context.read<PostsBloc>().add(EditPost(updatedPost));
+
     Navigator.pop(context);
   }
 
@@ -58,7 +60,8 @@ class _PostDetailScreenState extends State<PostDetailScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Edit Post'),
+        title: const Text('Modifier Post'),
+        backgroundColor: Colors.blueAccent,
         actions: [
           IconButton(
             icon: const Icon(Icons.save),
@@ -72,12 +75,18 @@ class _PostDetailScreenState extends State<PostDetailScreen> {
           children: [
             TextField(
               controller: _titleController,
-              decoration: const InputDecoration(labelText: 'Titre'),
+              decoration: const InputDecoration(
+                labelText: 'Titre',
+                border: OutlineInputBorder(),
+              ),
             ),
             const SizedBox(height: 16),
             TextField(
               controller: _descriptionController,
-              decoration: const InputDecoration(labelText: 'Description'),
+              decoration: const InputDecoration(
+                labelText: 'Description',
+                border: OutlineInputBorder(),
+              ),
               maxLines: 5,
             ),
           ],

@@ -18,7 +18,7 @@ class PostsBloc extends Bloc<PostsEvent, PostsState> {
           emit(PostsLoaded(posts));
         }
       } catch (e) {
-        emit(PostsError("Failed to load posts: ${e.toString()}"));
+        emit(PostsError("Erreur de chargement des posts: ${e.toString()}"));
       }
     });
 
@@ -27,7 +27,7 @@ class PostsBloc extends Bloc<PostsEvent, PostsState> {
         await _repository.createPost(event.newPost);
         add(LoadPosts());
       } catch (e) {
-        emit(PostsError("Failed to add post: ${e.toString()}"));
+        emit(PostsError("Erreur lors de la creation du post: ${e.toString()}"));
       }
     });
 
@@ -36,7 +36,8 @@ class PostsBloc extends Bloc<PostsEvent, PostsState> {
         await _repository.updatePost(event.updatedPost);
         add(LoadPosts());
       } catch (e) {
-        emit(PostsError("Failed to edit post: ${e.toString()}"));
+        emit(PostsError(
+            "Erreur lors de la modificiation du post: ${e.toString()}"));
       }
     });
   }
