@@ -22,7 +22,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (_) => PostsBloc(repository)..add(LoadPosts()),
-      child: MaterialApp(
+      child: const MaterialApp(
         home: PostsListScreen(),
       ),
     );
