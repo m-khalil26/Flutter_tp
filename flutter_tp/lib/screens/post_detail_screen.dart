@@ -1,10 +1,10 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../data/model/post.dart';
+import '../post_bloc/post_bloc.dart';
 import '../post_bloc/post_event.dart';
-import '../post_bloc/post_state.dart';
-
 
 class PostDetailScreen extends StatefulWidget {
   final Post post;
@@ -35,13 +35,23 @@ class _PostDetailScreenState extends State<PostDetailScreen> {
   }
 
   void _saveChanges() {
+    final title = _titleController.text;
+    final description = _descriptionController.text;
+
+    if (title.isEmpty || description.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text("Le titre et la description doivent être remplis")),
+      );
+      return;
+    }
+
     final updatedPost = widget.post.copyWith(
-      title: _titleController.text,
-      description: _descriptionController.text,
+      title: title,
+      description: description,
     );
 
     context.read<PostsBloc>().add(EditPost(updatedPost));
-    Navigator.pop(context); // Retour à l'écran précédent
+    Navigator.pop(context);
   }
 
   @override
@@ -62,7 +72,7 @@ class _PostDetailScreenState extends State<PostDetailScreen> {
           children: [
             TextField(
               controller: _titleController,
-              decoration: const InputDecoration(labelText: 'Title'),
+              decoration: const InputDecoration(labelText: 'Titre'),
             ),
             const SizedBox(height: 16),
             TextField(
