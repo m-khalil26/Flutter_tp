@@ -1,12 +1,15 @@
 import '../model/post.dart';
+import 'IDataSource.dart';
 
-class FakePostsDataSource {
+
+class FakePostsDataSource implements IDataSource {
   final List<Post> _fakePosts = [
     Post(id: '1', title: 'Post 1', description: 'Description Post 1'),
     Post(id: '2', title: 'Post 2', description: 'Description Post 2'),
     Post(id: '3', title: 'Post 3', description: 'Description Post 3'),
   ];
 
+  @override
   Future<List<Post>> getAllPosts() async {
     try {
       await Future.delayed(const Duration(seconds: 1));
@@ -16,6 +19,7 @@ class FakePostsDataSource {
     }
   }
 
+  @override
   Future<void> createPost(Post postToAdd) async {
     if (postToAdd.title.isEmpty || postToAdd.description.isEmpty) {
       throw Exception("Post title or description cannot be empty");
@@ -28,6 +32,7 @@ class FakePostsDataSource {
     }
   }
 
+  @override
   Future<void> updatePost(Post updatedPost) async {
     if (updatedPost.title.isEmpty || updatedPost.description.isEmpty) {
       throw Exception("Post title or description cannot be empty");
